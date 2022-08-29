@@ -1,0 +1,62 @@
+@import "../variables";
+
+.popUpWrap {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.51);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .block {
+    width: 530px;
+    height: 405px;
+    border-radius: 20px;
+    background: $bg;
+    padding: 55px 22px 40px;
+    position: relative;
+
+    .close {
+      position: absolute;
+      background: transparent;
+      border: none;
+      top: 20px;
+      right: 20px;
+      cursor: pointer;
+    }
+
+    .navBtns {
+      display: flex;
+      width: 230px;
+      justify-content: space-between;
+      margin: 0 auto;
+
+      > .btn {
+        border: none;
+        background: transparent;
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 26px;
+        color: #ffffff;
+        padding-bottom: 5px;
+        border-bottom: 1px solid transparent;
+        opacity: .5;
+        cursor: pointer;
+        transition: .3s;
+
+        &:hover {
+          opacity: 1;
+        }
+
+        &.active {
+          opacity: 1;
+          border-bottom: 1px solid $blue;
+        }
+      }
+    }
+  }
+}

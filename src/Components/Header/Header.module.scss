@@ -1,4 +1,11 @@
+@import "../variables.scss";
+
 .header {
+  padding: 16px 0 14px;
+  background: $greyBg;
+}
+
+.headerContent {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -6,5 +13,66 @@
   .logo {
     display: flex;
     align-items: center;
+
+    > .text {
+      font-weight: 700;
+      font-size: 32px;
+      line-height: 41px;
+      color: #fff;
+      margin-left: 7px;
+
+      > span {
+        color: $blue;
+      }
+    }
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 380px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: 240px;
+
+    .item {
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 26px;
+      color: #fff;
+      opacity: 0.4;
+      transition: all 0.3s ease-in-out;
+      border-bottom: 2px solid transparent;
+
+      &:hover {
+        opacity: 1;
+      }
+
+      &.active {
+        opacity: 1;
+        border-bottom: 2px solid $blue;
+      }
+    }
+  }
+
+  .signIn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 140px;
+    height: 45px;
+    background: $main-bg;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    font-weight: 700;
+    font-size: 20px;
+    color: #ffffff;
+    transition: all .3s ease-in;
+    cursor: pointer;
+
+    &:hover {
+      border: 1px solid $blue;
+    }
   }
 }
