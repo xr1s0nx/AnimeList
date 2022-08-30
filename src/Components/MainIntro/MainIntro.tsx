@@ -2,8 +2,13 @@ import React from "react";
 import styles from "./MainIntro.module.scss";
 import { Link } from "react-router-dom";
 import introImg from "../../assets/images/rimuruImg.png";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../redux/store";
+import { changeActiveNav } from "../../redux/slices/mainSlice";
 
 function MainIntro() {
+  const dispatch = useDispatch<AppDispatch>();
+
   return (
     <>
       <div className="container">
@@ -17,7 +22,11 @@ function MainIntro() {
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
               enim ad minim veniam, quis nostrud"
             </p>
-            <Link className={styles.button} to={"/Catalog"}>
+            <Link
+              onClick={() => dispatch(changeActiveNav(2))}
+              className={styles.button}
+              to={"/Catalog"}
+            >
               Catalog
             </Link>
           </div>

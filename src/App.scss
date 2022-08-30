@@ -8,15 +8,16 @@
 }
 
 body {
-  font-family: 'Futura PT', serif;
+  font-family: "Futura PT", serif;
   font-weight: 700;
   font-size: 14px;
   line-height: 18px;
-  color: #FFFFFF;
+  color: #ffffff;
   background: $main-bg;
 }
 
-body, html {
+body,
+html {
   overflow-x: hidden;
   scroll-behavior: smooth;
 }
@@ -30,4 +31,36 @@ a {
   max-width: 1460px;
   padding: 0 20px;
   margin: 0 auto;
+}
+
+.PopUp-enter {
+  opacity: 0;
+}
+.PopUp-enter-active {
+  opacity: 1;
+  transition: opacity 300ms, transform 300ms;
+}
+.PopUp-exit {
+  opacity: 1;
+}
+.PopUp-exit-active {
+  opacity: 0;
+  transition: opacity 500ms, transform 300ms;
+}
+
+.content-enter {
+  opacity: 0;
+}
+.content-enter-active {
+
+  opacity: 1;
+  transition: opacity 500ms, transform 300ms;
+}
+.content-exit {
+  opacity: 1;
+}
+.content-exit-active {
+  display: none;
+  opacity: 0;
+  transition: opacity 500ms, transform 300ms;
 }

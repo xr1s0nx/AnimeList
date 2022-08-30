@@ -2,36 +2,31 @@ import React from "react";
 import styles from "./Header.module.scss";
 import { Link } from "react-router-dom";
 import logoImg from "../../assets/images/logo.png";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store";
+import {
+  changeActiveNav,
+  changePopUpActive,
+} from "../../redux/slices/mainSlice";
 
 const Header: React.FC = () => {
-  const [navBtns, changeActiveNav] = React.useState<
-    {
-      id: number;
-      title: string;
-      active: boolean;
-      link: string;
-    }[]
-  >([
-    { id: 1, title: "Main", active: true, link: "/" },
-    { id: 2, title: "Catalog", active: false, link: "/Catalog" },
-    { id: 3, title: "Random", active: false, link: "/Random" },
-    { id: 4, title: "Support", active: false, link: "/Support" },
-  ]);
+  const dispatch = useDispatch<AppDispatch>();
+
+  const navBtns = useSelector((state: RootState) => state.main.navBtnsPages);
 
   const onNavClick = (id: number) => {
-    changeActiveNav(
-      navBtns.map((item) => {
-        item.active = item.id === id;
-        return item;
-      })
-    );
+    dispatch(changeActiveNav(id));
   };
 
   return (
     <header className={styles.header}>
       <div className="container">
         <div className={styles.headerContent}>
-          <Link to={"/"} className={styles.logo}>
+          <Link
+            to={"/"}
+            className={styles.logo}
+            onClick={() => dispatch(changeActiveNav(1))}
+          >
             <img src={logoImg} alt="" />
             <p className={styles.text}>
               Anime<span>List</span>
@@ -55,7 +50,14 @@ const Header: React.FC = () => {
               );
             })}
           </nav>
-          <button className={styles.signIn}>Sign In</button>
+          <button
+            onClick={() => {
+              dispatch(changePopUpActive(true));
+            }}
+            className={styles.signIn}
+          >
+            Sign In
+          </button>
         </div>
       </div>
     </header>
