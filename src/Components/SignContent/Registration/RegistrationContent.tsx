@@ -3,6 +3,8 @@ import styles from "../SignContent.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import {
+  confirmPassChange,
+  registrationDataSend,
   registrationLoginValueChange,
   regPassChange,
 } from "../../../redux/slices/mainSlice";
@@ -17,6 +19,7 @@ function RegistrationContent() {
     return () => {
       dispatch(registrationLoginValueChange(""));
       dispatch(regPassChange(""));
+      dispatch(confirmPassChange(""));
     };
   }, [dispatch]);
 
@@ -43,9 +46,18 @@ function RegistrationContent() {
         </div>
         <div className={styles.inputRow}>
           <p>Confirm Password</p>
-          <input type="password" />
+          <input
+            value={registrationPage.confirmPassword}
+            onChange={(e) => dispatch(confirmPassChange(e.target.value))}
+            type="password"
+          />
         </div>
-        <button className={styles.button}>Registration</button>
+        <button
+          onClick={() => dispatch(registrationDataSend())}
+          className={styles.button}
+        >
+          Registration
+        </button>
       </div>
     </>
   );

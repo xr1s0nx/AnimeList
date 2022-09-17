@@ -13,20 +13,29 @@ import { useNavigate } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
 import SignInContent from "../SignContent/SignIn/SignInContent";
 import RegistrationContent from "../SignContent/Registration/RegistrationContent";
+import ErrorModal from "../ErrorModal/ErrorModal";
 
 const SignPopUp: React.FC = () => {
   const nowActiveBtn = useSelector(
     (state: RootState) => state.main.nowActiveSign
   );
-  const navigate = useNavigate();
   const navBtns = useSelector((state: RootState) => state.main.navBtns);
   const dispatch = useDispatch<AppDispatch>();
   const nowSignTab = useSelector((state: RootState) => state.main.nowSignTab);
+  const errorStatus = useSelector((state: RootState) => state.main.errorStatus);
 
   return (
     <>
       <div className={styles.popUpWrap}>
         <div className={styles.block}>
+          <CSSTransition
+            in={errorStatus}
+            timeout={300}
+            classNames="content"
+            unmountOnExit
+          >
+            <ErrorModal />
+          </CSSTransition>
           <button
             onClick={() => {
               dispatch(changePopUpActive(false));

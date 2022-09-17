@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./Header.module.scss";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import logoImg from "../../assets/images/logo.png";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
@@ -35,18 +35,16 @@ const Header: React.FC = () => {
           <nav className={styles.nav}>
             {navBtns.map((item) => {
               return (
-                <Link
+                <NavLink
                   onClick={() => onNavClick(item.id)}
                   key={item.id}
                   to={item.link}
-                  className={
-                    item.active
-                      ? `${styles.item} ${styles.active}`
-                      : `${styles.item}`
+                  className={({ isActive }) =>
+                    isActive ? `${styles.item} ${styles.active}` : styles.item
                   }
                 >
                   {item.title}
-                </Link>
+                </NavLink>
               );
             })}
           </nav>

@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.scss";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Main from "./Components/Pages/Main";
 import Header from "./Components/Header/Header";
 import { AnimatePresence } from "framer-motion";
@@ -12,12 +12,16 @@ import { useSelector } from "react-redux";
 import { RootState } from "./redux/store";
 import { CSSTransition } from "react-transition-group";
 import NotFound from "./Components/Pages/NotFound";
+import qs from "qs";
 
 function App() {
   const location = useLocation();
   const signPopUpActive = useSelector(
     (state: RootState) => state.main.signPopUpActive
   );
+
+  const navigate = useNavigate();
+
   return (
     <>
       <Header />

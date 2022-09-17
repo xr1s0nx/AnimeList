@@ -64,3 +64,31 @@ a {
   opacity: 0;
   transition: opacity 500ms, transform 300ms;
 }
+
+.loaderWrap {
+  padding-top: 100px;
+  width: 100%;
+  max-height: 600px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .loader {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+.notFound-block {
+  text-align: center;
+  font-size: 60px;
+  line-height: 120px;
+  padding-top: 200px;
+
+  span {
+    font-size: 120px;
+    color: #00F0FF;
+  }
+
+}
