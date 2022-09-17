@@ -27,7 +27,7 @@ export interface CounterState {
   isLoading: boolean;
   hasNextPage: boolean;
   pagesCount: number;
-  sortProps: { currentPage: number };
+  sortProps: { currentPage: number; searchValue: string };
 }
 
 const initialState: CounterState = {
@@ -54,6 +54,7 @@ const initialState: CounterState = {
   pagesCount: 0,
   sortProps: {
     currentPage: 1,
+    searchValue: "",
   },
 };
 
@@ -131,7 +132,7 @@ export const counterSlice = createSlice({
       state.isLoading = action.payload;
     },
     changeSortProps: (state, action) => {
-      state.sortProps.currentPage = action.payload.currentPage;
+      state.sortProps = { ...action.payload };
     },
     setHasNextPage: (state, action) => {
       state.hasNextPage = action.payload;

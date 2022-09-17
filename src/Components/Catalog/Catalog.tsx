@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useRef } from "react";
 import styles from "./Catalog.module.scss";
 import Filter from "./Filter/Filter";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import CatalogItem from "./CatalogItem/CatalogItem";
 import ReactPaginate from "react-paginate";
+// @ts-ignore
+import debounce from "lodash.debounce";
 import {
   changeSortProps,
   setAnimeData,
@@ -26,12 +28,20 @@ function Catalog() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isSearch = React.useRef(false);
+  const searchValue = useSelector(
+    (state: RootState) => state.main.sortProps.searchValue
+  );
+  const sortProps = useSelector((state: RootState) => state.main.sortProps);
 
   const getPizzas = () => {
     dispatch(setLoading(true));
     window.scrollTo(0, 0);
     axios
-      .get(`https://api.jikan.moe/v4/anime?page=${currentPage}&limit=50`)
+      .get(
+        `https://api.jikan.moe/v4/anime?page=${currentPage}&limit=30${
+          searchValue !== undefined ? `&letter=${searchValue}` : ""
+        }`
+      )
       .then((response) => {
         dispatch(setAnimeData(response.data.data));
         dispatch(setLoading(false));
@@ -53,14 +63,17 @@ function Catalog() {
       getPizzas();
     }
     isSearch.current = false;
-  }, [dispatch, currentPage]);
+  }, [dispatch, currentPage, searchValue]);
 
   React.useEffect(() => {
     const queryString = qs.stringify({
       currentPage,
     });
-    navigate(`?${queryString}`);
-  }, [currentPage, navigate]);
+    const searchVal = qs.stringify({
+      searchValue,
+    });
+    navigate(`?${queryString}${searchValue !== "" ? `&${searchVal}` : ""}`);
+  }, [currentPage, navigate, searchValue]);
 
   return (
     <>
@@ -70,7 +83,7 @@ function Catalog() {
           <div className={"loaderWrap"}>
             <img src={loader} alt="" className="loader" />
           </div>
-        ) : (
+        ) : animeData.length > 0 ? (
           <div className={styles.gridWrap}>
             {animeData.map(
               (item: {
@@ -100,6 +113,8 @@ function Catalog() {
               }
             )}
           </div>
+        ) : (
+          <p className={styles.notFoundText}>no anime found :(</p>
         )}
         <ReactPaginate
           breakLabel="..."

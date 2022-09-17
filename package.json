@@ -47,8 +47,11 @@
     ]
   },
   "devDependencies": {
+    "@types/lodash.debounce": "^4.0.7",
     "@types/react-transition-group": "^4.4.5",
     "axios": "^0.27.2",
+    "lodash": "^4.17.21",
+    "lodash.debounce": "^4.0.8",
     "qs": "^6.11.0",
     "react-paginate": "^8.1.3"
   }
