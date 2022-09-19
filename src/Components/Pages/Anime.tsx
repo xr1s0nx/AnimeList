@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import AnimeItem from "../AnimeItem/AnimeItem";
 
 function Anime() {
   return (
@@ -8,7 +9,7 @@ function Anime() {
       animate={{ opacity: 1 }}
       transition={{ delay: 0.1 }}
     >
-      <p>Anime</p>
+      <AnimeItem />
     </motion.main>
   );
 }

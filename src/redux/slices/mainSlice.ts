@@ -40,6 +40,7 @@ export interface CounterState {
   endDateModal: boolean;
   sortModal: boolean;
   allSortProps: { title: string; value: string }[];
+  currentItem: any;
 }
 
 const initialState: CounterState = {
@@ -67,12 +68,22 @@ const initialState: CounterState = {
   sortProps: {
     currentPage: 1,
     searchValue: "",
-    startDate: "1990",
+    startDate: "1980",
     endDate: "2022",
     orderBy: "score",
     sortType: "desc",
   },
   allDates: [
+    { value: "1980" },
+    { value: "1981" },
+    { value: "1982" },
+    { value: "1983" },
+    { value: "1984" },
+    { value: "1985" },
+    { value: "1986" },
+    { value: "1987" },
+    { value: "1988" },
+    { value: "1989" },
     { value: "1990" },
     { value: "1991" },
     { value: "1992" },
@@ -116,6 +127,7 @@ const initialState: CounterState = {
   startDateModal: false,
   endDateModal: false,
   sortModal: false,
+  currentItem: {},
 };
 
 export const counterSlice = createSlice({
@@ -215,6 +227,9 @@ export const counterSlice = createSlice({
       state.endDateModal = false;
       state.startDateModal = false;
     },
+    setCurrentAnime: (state, action) => {
+      state.currentItem = action.payload;
+    },
   },
 });
 
@@ -235,6 +250,7 @@ export const {
   startDateModalChange,
   endDateModalChange,
   sortModalChange,
+  setCurrentAnime,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

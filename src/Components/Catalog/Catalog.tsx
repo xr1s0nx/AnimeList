@@ -35,7 +35,9 @@ function Catalog() {
       .get(
         `https://api.jikan.moe/v4/anime?page=${currentPage}&limit=25${
           searchValue !== undefined ? `&letter=${searchValue}` : ""
-        }&start_date=${startDate}&end_date=${endDate}&order_by=${orderBy}&sort=${sortType}&rating=g-pg-pg13-r17`
+        }&start_date=${startDate}${
+          endDate === "2022" ? "" : `&end_date=${endDate}`
+        }&order_by=${orderBy}&sort=${sortType}&rating=g-pg-pg13-r17`
       )
       .then((response) => {
         dispatch(setAnimeData(response.data.data));
@@ -121,7 +123,7 @@ function Catalog() {
                     title={
                       item.title === null ? item.title_english : item.title
                     }
-                    imgUrl={item.images.jpg.image_url}
+                    imgUrl={item.images.webp.large_image_url}
                     episodes={item.episodes}
                     watchStatus={item.watchStatus}
                   />
