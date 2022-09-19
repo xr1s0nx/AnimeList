@@ -67,7 +67,7 @@ const initialState: CounterState = {
   sortProps: {
     currentPage: 1,
     searchValue: "",
-    startDate: "1980",
+    startDate: "1990",
     endDate: "2022",
     orderBy: "score",
     sortType: "desc",
