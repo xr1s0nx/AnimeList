@@ -13,6 +13,7 @@ import { RootState } from "./redux/store";
 import { CSSTransition } from "react-transition-group";
 import NotFound from "./Components/Pages/NotFound";
 import qs from "qs";
+import Anime from "./Components/Pages/Anime";
 
 function App() {
   const location = useLocation();
@@ -40,6 +41,7 @@ function App() {
           <Route path={"/Catalog"} element={<Catalog />} />
           <Route path={"/Random"} element={<Random />} />
           <Route path={"/Support"} element={<Support />} />
+          <Route path={"/Anime"} element={<Anime />} />
           <Route path={"/*"} element={<NotFound />} />
         </Routes>
       </AnimatePresence>

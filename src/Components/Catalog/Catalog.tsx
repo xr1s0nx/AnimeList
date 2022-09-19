@@ -1,12 +1,10 @@
-import React, { useRef } from "react";
+import React from "react";
 import styles from "./Catalog.module.scss";
 import Filter from "./Filter/Filter";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import CatalogItem from "./CatalogItem/CatalogItem";
 import ReactPaginate from "react-paginate";
-// @ts-ignore
-import debounce from "lodash.debounce";
 import {
   changeSortProps,
   setAnimeData,
@@ -16,31 +14,28 @@ import {
 } from "../../redux/slices/mainSlice";
 import { default as axios } from "axios";
 import loader from "../../assets/images/loader.svg";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import qs from "qs";
+
 function Catalog() {
   const animeData = useSelector((state: RootState) => state.main.animeList);
   const isLoading = useSelector((state: RootState) => state.main.isLoading);
   const pagesCount = useSelector((state: RootState) => state.main.pagesCount);
-  const { currentPage } = useSelector(
-    (state: RootState) => state.main.sortProps
-  );
+  const { currentPage, searchValue, startDate, sortType, endDate, orderBy } =
+    useSelector((state: RootState) => state.main.sortProps);
+  const sortProps = useSelector((state: RootState) => state.main.sortProps);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isSearch = React.useRef(false);
-  const searchValue = useSelector(
-    (state: RootState) => state.main.sortProps.searchValue
-  );
-  const sortProps = useSelector((state: RootState) => state.main.sortProps);
+  const location = useLocation();
 
   const getPizzas = () => {
     dispatch(setLoading(true));
-    window.scrollTo(0, 0);
     axios
       .get(
-        `https://api.jikan.moe/v4/anime?page=${currentPage}&limit=30${
+        `https://api.jikan.moe/v4/anime?page=${currentPage}&limit=25${
           searchValue !== undefined ? `&letter=${searchValue}` : ""
-        }`
+        }&start_date=${startDate}&end_date=${endDate}&order_by=${orderBy}&sort=${sortType}&rating=g-pg-pg13-r17`
       )
       .then((response) => {
         dispatch(setAnimeData(response.data.data));
@@ -51,29 +46,52 @@ function Catalog() {
   };
 
   React.useEffect(() => {
+    window.scrollTo(0, 0);
+
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1));
       dispatch(changeSortProps(params));
       isSearch.current = true;
     }
-  }, [dispatch]);
+  }, [dispatch, location]);
 
   React.useEffect(() => {
     if (!isSearch.current) {
       getPizzas();
     }
     isSearch.current = false;
-  }, [dispatch, currentPage, searchValue]);
+  }, [
+    dispatch,
+    currentPage,
+    searchValue,
+    location,
+    startDate,
+    endDate,
+    sortType,
+    orderBy,
+  ]);
 
   React.useEffect(() => {
     const queryString = qs.stringify({
       currentPage,
+      startDate,
+      endDate,
+      sortType,
+      orderBy,
     });
     const searchVal = qs.stringify({
       searchValue,
     });
     navigate(`?${queryString}${searchValue !== "" ? `&${searchVal}` : ""}`);
-  }, [currentPage, navigate, searchValue]);
+  }, [
+    currentPage,
+    navigate,
+    searchValue,
+    startDate,
+    sortType,
+    orderBy,
+    endDate,
+  ]);
 
   return (
     <>
@@ -101,9 +119,7 @@ function Catalog() {
                     id={item.mal_id}
                     score={item.score}
                     title={
-                      item.title_english === null
-                        ? item.title
-                        : item.title_english
+                      item.title === null ? item.title_english : item.title
                     }
                     imgUrl={item.images.jpg.image_url}
                     episodes={item.episodes}
@@ -120,7 +136,9 @@ function Catalog() {
           breakLabel="..."
           nextLabel=""
           onPageChange={(event) => {
-            dispatch(changeSortProps({ currentPage: event.selected + 1 }));
+            dispatch(
+              changeSortProps({ ...sortProps, currentPage: event.selected + 1 })
+            );
           }}
           pageRangeDisplayed={3}
           pageClassName={styles.page}

@@ -6,6 +6,7 @@
   background: rgba(64, 64, 64, 0.6);
   padding: 33px 28px;
   min-height: 300px;
+  margin-bottom: 80px;
   .gridWrap {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -21,13 +22,13 @@
   .pagintaion {
     margin: 0 auto;
     margin-top: 100px;
-    justify-content: space-between;
-    width: 500px;
+    justify-content: center;
     align-items: center;
     display: flex;
     list-style: none;
     .page a {
       display: flex;
+      margin: 0 10px;
       align-items: center;
       justify-content: center;
       width: 40px;

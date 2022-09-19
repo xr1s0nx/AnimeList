@@ -2,19 +2,32 @@ import React, { useCallback, useRef, useState } from "react";
 import styles from "./Filter.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
-import { changeSortProps } from "../../../redux/slices/mainSlice";
-import lodash from "lodash";
+import {
+  changeSortProps,
+  endDateModalChange,
+  sortModalChange,
+  startDateModalChange,
+} from "../../../redux/slices/mainSlice";
+import lodash, { orderBy } from "lodash";
 import qs from "qs";
 import QueryString from "qs";
 import { useLocation } from "react-router-dom";
 
 function Filter() {
   const sortProps = useSelector((state: RootState) => state.main.sortProps);
-
   const dispatch = useDispatch();
   const searchRef: any = useRef();
   const [searchValueState, changeSearchValue] = useState();
   const location = useLocation();
+  const allDates = useSelector((state: RootState) => state.main.allDates);
+  const allSorts = useSelector((state: RootState) => state.main.allSortProps);
+  const startDateModal = useSelector(
+    (state: RootState) => state.main.startDateModal
+  );
+  const endDateModal = useSelector(
+    (state: RootState) => state.main.endDateModal
+  );
+  const sortModal = useSelector((state: RootState) => state.main.sortModal);
 
   React.useEffect(() => {
     const search:
@@ -30,10 +43,10 @@ function Filter() {
   }, [location]);
 
   const debounceSearch = useCallback(
-    lodash.debounce(() => {
+    lodash.debounce((sortPropsCurrent) => {
       dispatch(
         changeSortProps({
-          ...sortProps,
+          ...sortPropsCurrent,
           currentPage: 1,
           searchValue: searchRef.current.value ? searchRef.current.value : "",
         })
@@ -44,7 +57,7 @@ function Filter() {
 
   const changeSearchVal = (e: any) => {
     changeSearchValue(e.target.value);
-    debounceSearch();
+    debounceSearch({ ...sortProps });
   };
 
   return (
@@ -60,7 +73,113 @@ function Filter() {
         />
       </div>
       <div className={styles.filters}>
-        <div className={styles.filter}></div>
+        <div className={styles.filter}>
+          <p className={styles.filterTitle}>Sort By</p>
+          <button
+            onClick={() => dispatch(sortModalChange(!sortModal))}
+            className={styles.filterButton}
+          >
+            <>
+              {
+                allSorts.filter((item) => sortProps.orderBy === item.value)[0]
+                  .title
+              }
+            </>
+          </button>
+          <div
+            className={
+              sortModal ? `${styles.modal} ${styles.active}` : `${styles.modal}`
+            }
+          >
+            {allSorts.map((item) => (
+              <button
+                className={
+                  item.value === sortProps.orderBy ? styles.active : ""
+                }
+                onClick={() => {
+                  dispatch(
+                    changeSortProps({ ...sortProps, orderBy: item.value })
+                  );
+                  dispatch(sortModalChange(false));
+                }}
+              >
+                {item.title}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className={styles.filter}>
+          <p className={styles.filterTitle}>Start Date</p>
+          <button
+            onClick={() => dispatch(startDateModalChange(!startDateModal))}
+            className={styles.filterButton}
+          >
+            {sortProps.startDate}
+          </button>
+          <div
+            className={
+              startDateModal
+                ? `${styles.modal} ${styles.active}`
+                : `${styles.modal}`
+            }
+          >
+            {allDates.map((date) => (
+              <button
+                className={
+                  sortProps.startDate === date.value
+                    ? styles.active
+                    : "" + sortProps.endDate <= date.value
+                    ? styles.disabled
+                    : ""
+                }
+                onClick={() => {
+                  dispatch(
+                    changeSortProps({ ...sortProps, startDate: date.value })
+                  );
+                  dispatch(startDateModalChange(false));
+                }}
+              >
+                {date.value}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className={styles.filter}>
+          <p className={styles.filterTitle}>End Date</p>
+          <button
+            onClick={() => dispatch(endDateModalChange(!endDateModal))}
+            className={styles.filterButton}
+          >
+            {sortProps.endDate}
+          </button>
+          <div
+            className={
+              endDateModal
+                ? `${styles.modal} ${styles.active}`
+                : `${styles.modal}`
+            }
+          >
+            {allDates.map((date) => (
+              <button
+                className={
+                  sortProps.endDate === date.value
+                    ? styles.active
+                    : "" + sortProps.startDate >= date.value
+                    ? styles.disabled
+                    : ""
+                }
+                onClick={() => {
+                  dispatch(
+                    changeSortProps({ ...sortProps, endDate: date.value })
+                  );
+                  dispatch(endDateModalChange(false));
+                }}
+              >
+                {date.value}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

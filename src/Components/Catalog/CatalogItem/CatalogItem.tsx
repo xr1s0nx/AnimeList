@@ -25,7 +25,7 @@ function CatalogItem({
   ];
 
   return (
-    <Link to={`/anime/${id}`} className={styles.catalogItem}>
+    <Link to={`/anime?id=${id}`} className={styles.catalogItem}>
       <div className={styles.imgWrap}>
         <img src={imgUrl} alt="" />
       </div>

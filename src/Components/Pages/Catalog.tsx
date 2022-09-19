@@ -5,8 +5,8 @@ import Catalog from "../Catalog/Catalog";
 const CatalogPage: React.FC = () => {
   return (
     <motion.div
-      initial={{ x: "100%" }}
-      animate={{ x: "0" }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       transition={{ delay: 0.1 }}
     >
       <div className="container">
