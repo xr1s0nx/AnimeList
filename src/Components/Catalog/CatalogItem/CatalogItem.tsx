@@ -1,6 +1,8 @@
 import React from "react";
 import styles from "./CatalogItem.module.scss";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
 
 function CatalogItem({
   id,
@@ -23,15 +25,43 @@ function CatalogItem({
     { id: 3 },
     { id: 4 },
   ];
+  const markers = useSelector((state: RootState) => state.main.animeMarkers);
+  const [status, setStatus] = React.useState("Unwatched");
+  const [background, setBackground] = React.useState("transparent");
+
+  React.useEffect(() => {
+    markers.map((item) => {
+      if (item.id === id) {
+        setStatus(item.status);
+      }
+    });
+    if (status === "Watch") {
+      setBackground("rgba(91, 159, 80, 0.91)");
+    } else if (status === "Watched") {
+      setBackground("rgba(80, 112, 159, 0.91)");
+    } else if (status === "Planned") {
+      setBackground("rgba(148, 80, 159, 0.91)");
+    } else if (status === "Dropped") {
+      setBackground("rgba(177, 58, 58, 0.91)");
+    }
+  }, [id, markers, status]);
 
   return (
-    <Link to={`/anime?id=${id}`} className={styles.catalogItem}>
+    <Link to={`/anime?id=${id}`} className={`${styles.catalogItem}`}>
       <div className={styles.imgWrap}>
         <img src={imgUrl} alt="" />
+        {status !== "Unwatched" ? (
+          <div
+            className={styles.statusBlock}
+            style={{ background: background }}
+          >
+            <p className={styles.statusText}>{status}</p>
+          </div>
+        ) : null}
       </div>
       <p className={styles.title}>{`${title}`}</p>
       <p className={styles.episodes}>{`${
-        episodes === null ? "ongoing" : episodes + " ep"
+        episodes === null ? "?" : episodes + " ep"
       }`}</p>
       <div className={styles.stars}>
         {stars.map((star) => {

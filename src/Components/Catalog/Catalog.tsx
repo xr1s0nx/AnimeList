@@ -37,7 +37,7 @@ function Catalog() {
           searchValue !== undefined ? `&letter=${searchValue}` : ""
         }&start_date=${startDate}${
           endDate === "2022" ? "" : `&end_date=${endDate}`
-        }&order_by=${orderBy}&sort=${sortType}&rating=g-pg-pg13-r17`
+        }&order_by=${orderBy}&sort=${sortType}`
       )
       .then((response) => {
         dispatch(setAnimeData(response.data.data));
@@ -48,8 +48,6 @@ function Catalog() {
   };
 
   React.useEffect(() => {
-    window.scrollTo(0, 0);
-
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1));
       dispatch(changeSortProps(params));

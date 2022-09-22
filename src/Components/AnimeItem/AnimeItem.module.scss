@@ -1,0 +1,162 @@
+.itemContent {
+  margin-top: 20px;
+  padding: 40px;
+  background: #404040;
+  border-radius: 20px;
+  .mainDesc {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    .descImg {
+      margin-right: 40px;
+      position: relative;
+      .statusModal {
+        position: absolute;
+        bottom: -190px;
+        padding: 10px;
+        left: 0;
+        width: 100%;
+        z-index: 100;
+        background: #2b2b2b;
+        border: 1px solid #000;
+        border-radius: 10px;
+        .modalBtn {
+          width: 100%;
+          padding: 5px 0;
+          display: block;
+          border-radius: 10px;
+          transition: 0.3s;
+          background: rgba(255, 255, 255, 0.7);
+          cursor: pointer;
+          &:hover {
+            background: #fff;
+          }
+        }
+        .modalBtn + .modalBtn {
+          margin-top: 5px;
+        }
+      }
+      .imgWrap {
+        width: 300px;
+        height: 450px;
+        overflow: hidden;
+        border-radius: 20px;
+        &:hover {
+          img {
+            transform: scale(1.05);
+          }
+        }
+        img {
+          width: 100%;
+          min-height: 100%;
+          transition: 0.8s;
+        }
+      }
+      .viewStatus {
+        width: 100%;
+        margin-top: 20px;
+        font-weight: 500;
+        font-size: 24px;
+        line-height: 31px;
+        color: #ffffff;
+        background: #2b2b2b;
+        border-radius: 10px;
+        padding: 6px 0;
+        cursor: pointer;
+        position: relative;
+        &:after {
+          position: absolute;
+          content: "";
+          background-image: url("../../assets/images/status-arrow.svg");
+          background-repeat: no-repeat;
+          background-size: cover;
+          width: 20px;
+          top: 15px;
+          right: 30px;
+          transition: 0.3s;
+          height: 11px;
+        }
+        &.active {
+          &:after {
+            transform: rotate(180deg);
+          }
+        }
+      }
+    }
+    .descContent {
+      width: 100%;
+      .descTitle {
+        font-weight: 700;
+        font-size: 32px;
+        line-height: 41px;
+        color: #ffffff;
+        margin-bottom: 15px;
+      }
+      .titleJap {
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 21px;
+        color: #ffffff;
+        margin-bottom: 15px;
+      }
+      .descTextWrap {
+        width: 100%;
+        padding: 15px 15px 15px 15px;
+        background: #2b2b2b;
+        border-radius: 20px;
+        height: 225px;
+        overflow-y: auto;
+        .descText {
+          font-weight: 500;
+          font-size: 18px;
+          line-height: 23px;
+          color: #ffffff;
+        }
+      }
+      .descProps {
+        padding-left: 20px;
+        display: flex;
+        align-items: flex-start;
+        margin-top: 20px;
+        margin-bottom: 30px;
+        .propsCol {
+          margin-right: 40px;
+          .prop {
+            font-weight: 450;
+            font-size: 20px;
+            line-height: 26px;
+            color: #ffffff;
+            span {
+              color: #00f0ff;
+            }
+          }
+        }
+      }
+      .descScore {
+        display: flex;
+        align-items: center;
+        .scoreCount {
+          width: 100px;
+          height: 100px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 100%;
+          background: #2b2b2b;
+          margin-right: 40px;
+          .scoreText {
+            font-weight: 700;
+            font-size: 32px;
+            line-height: 41px;
+            color: #ffffff;
+          }
+        }
+        .starImg {
+          width: 25px;
+          height: 25px;
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+}

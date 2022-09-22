@@ -1,0 +1,34 @@
+.item {
+  width: 180px;
+  .imgWrap {
+    width: 100%;
+    height: 285px;
+    overflow: hidden;
+    border-radius: 15px;
+    border: 1px solid transparent;
+    transition: 0.3s;
+    img {
+      width: 100%;
+      min-height: 100%;
+      transition: 0.3s;
+      transform: scale(1.08);
+    }
+  }
+  &:hover .imgWrap {
+    border: 1px solid #00f0ff;
+    img {
+      transform: scale(1.1);
+    }
+  }
+  .characterName {
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 26px;
+    text-align: center;
+    margin-top: 15px;
+    color: #ffffff;
+  }
+}
+.item + .item {
+  margin-left: 40px;
+}

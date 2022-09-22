@@ -30,7 +30,21 @@
     border: 2px solid transparent;
     margin-bottom: 10px;
     transition: 0.5s;
-
+    position: relative;
+    .statusBlock {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      padding: 5px 0;
+      .statusText {
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 26px;
+        color: #ffffff;
+      }
+    }
     img {
       width: 100%;
       transition: 0.5s;

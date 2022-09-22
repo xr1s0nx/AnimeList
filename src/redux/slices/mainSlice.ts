@@ -41,6 +41,11 @@ export interface CounterState {
   sortModal: boolean;
   allSortProps: { title: string; value: string }[];
   currentItem: any;
+  currentItemCharacters: any[];
+  currentItemRecommendations: any[];
+  animeMarkers: { id: number; status: string }[];
+  markersValues: { value: string; color: string }[];
+  statusModalAnimeItem: boolean;
 }
 
 const initialState: CounterState = {
@@ -128,6 +133,23 @@ const initialState: CounterState = {
   endDateModal: false,
   sortModal: false,
   currentItem: {},
+  currentItemCharacters: [{}],
+  currentItemRecommendations: [{}],
+  animeMarkers: [
+    { id: 43608, status: "Planned" },
+    { id: 5114, status: "Watched" },
+    { id: 20, status: "Watched" },
+    { id: 9253, status: "Dropped" },
+    { id: 28977, status: "Watch" },
+  ],
+  markersValues: [
+    { value: "Planned", color: "rgba(148, 80, 159, 1)" },
+    { value: "Watched", color: "rgba(80, 112, 159, 1)" },
+    { value: "Dropped", color: "rgba(177, 58, 58, 1)" },
+    { value: "Watch", color: "rgba(91, 159, 80, 1)" },
+    { value: "Unwatched", color: "rgba(0, 0, 0, 1)" },
+  ],
+  statusModalAnimeItem: false,
 };
 
 export const counterSlice = createSlice({
@@ -147,6 +169,16 @@ export const counterSlice = createSlice({
     changeActiveNav: (state, action: PayloadAction<number>) => {
       state.navBtnsPages = state.navBtnsPages.map((item) => {
         item.active = item.id === action.payload;
+        if (item.title === "Catalog") {
+          state.sortProps = {
+            currentPage: 1,
+            searchValue: "",
+            startDate: "1980",
+            endDate: "2022",
+            orderBy: "score",
+            sortType: "desc",
+          };
+        }
         return item;
       });
     },
@@ -230,6 +262,25 @@ export const counterSlice = createSlice({
     setCurrentAnime: (state, action) => {
       state.currentItem = action.payload;
     },
+    setCharactersOfCurrentAnime: (state, action) => {
+      state.currentItemCharacters = action.payload;
+    },
+    setRecommendationsOfCurrentAnime: (state, action) => {
+      state.currentItemRecommendations = action.payload;
+    },
+    addAnimeToMarkers: (state, action) => {
+      // eslint-disable-next-line array-callback-return
+      state.animeMarkers.map((item) => {
+        if (item.id === action.payload.id) {
+          item.status = action.payload.status;
+        } else {
+          state.animeMarkers.push({ ...action.payload });
+        }
+      });
+    },
+    changeStatusOfAnimeModal: (state, action) => {
+      state.statusModalAnimeItem = action.payload;
+    },
   },
 });
 
@@ -251,6 +302,10 @@ export const {
   endDateModalChange,
   sortModalChange,
   setCurrentAnime,
+  setCharactersOfCurrentAnime,
+  setRecommendationsOfCurrentAnime,
+  addAnimeToMarkers,
+  changeStatusOfAnimeModal,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

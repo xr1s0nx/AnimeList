@@ -48,9 +48,12 @@ function Filter() {
         changeSortProps({
           ...sortPropsCurrent,
           currentPage: 1,
+          startDate: "1980",
+          endDate: "2022",
           searchValue: searchRef.current.value ? searchRef.current.value : "",
         })
       );
+      searchRef.current.focus();
     }, 1000),
     []
   );
@@ -91,8 +94,9 @@ function Filter() {
               sortModal ? `${styles.modal} ${styles.active}` : `${styles.modal}`
             }
           >
-            {allSorts.map((item) => (
+            {allSorts.map((item, i) => (
               <button
+                key={i}
                 className={
                   item.value === sortProps.orderBy ? styles.active : ""
                 }
@@ -123,8 +127,9 @@ function Filter() {
                 : `${styles.modal}`
             }
           >
-            {allDates.map((date) => (
+            {allDates.map((date, i) => (
               <button
+                key={i}
                 className={
                   sortProps.startDate === date.value
                     ? styles.active
@@ -159,8 +164,9 @@ function Filter() {
                 : `${styles.modal}`
             }
           >
-            {allDates.map((date) => (
+            {allDates.map((date, i) => (
               <button
+                key={i}
                 className={
                   sortProps.endDate === date.value
                     ? styles.active

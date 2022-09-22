@@ -1,0 +1,36 @@
+.itemCharacters {
+  background: #2b2b2b;
+  border-radius: 20px;
+  padding: 30px;
+  margin-top: 70px;
+  .titleRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    .charactersTitle {
+      font-weight: 800;
+      font-size: 32px;
+      line-height: 41px;
+      color: #ffffff;
+    }
+    .moreBtn {
+      color: #00F0FF;
+      font-weight: 400;
+      font-size: 20px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      border-bottom: 1px solid transparent;
+      transition: .3s;
+      &:hover {
+        border-bottom: 1px solid #00F0FF;
+      }
+    }
+  }
+
+  .characterItems {
+    display: flex;
+    align-items: flex-start;
+  }
+}
