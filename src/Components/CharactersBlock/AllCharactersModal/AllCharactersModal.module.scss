@@ -1,0 +1,39 @@
+.modalBg {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.62);
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  overflow-y: auto;
+  left: 0;
+  z-index: 1000;
+  padding: 20px 0;
+  .modal {
+    position: relative;
+    margin: auto;
+    border-radius: 20px;
+    max-width: 1420px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: 1fr;
+    grid-column-gap: 50px;
+    grid-row-gap: 20px;
+    background: #1B1B1B;
+    padding: 80px 20px 20px;
+    .close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: .3s;
+      &:hover {
+        fill: #00F0FF !important;
+      }
+    }
+    * {
+      margin-left: 0 !important;
+    }
+  }
+}

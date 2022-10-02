@@ -46,6 +46,16 @@ export interface CounterState {
   animeMarkers: { id: number; status: string }[];
   markersValues: { value: string; color: string }[];
   statusModalAnimeItem: boolean;
+  charactersModalStatus: boolean;
+  currentCharacterInfo: any;
+  currentCharacterId: string;
+  userData: {
+    email?: string;
+    token?: string;
+    id?: string;
+    login?: string;
+    imgUrl?: string;
+  };
 }
 
 const initialState: CounterState = {
@@ -62,7 +72,6 @@ const initialState: CounterState = {
     { id: 1, title: "Main", active: true, link: "/" },
     { id: 2, title: "Catalog", active: false, link: "/Catalog" },
     { id: 3, title: "Random", active: false, link: "/Random" },
-    { id: 4, title: "Support", active: false, link: "/Support" },
   ],
   errorText: "",
   errorStatus: false,
@@ -135,13 +144,7 @@ const initialState: CounterState = {
   currentItem: {},
   currentItemCharacters: [{}],
   currentItemRecommendations: [{}],
-  animeMarkers: [
-    { id: 43608, status: "Planned" },
-    { id: 5114, status: "Watched" },
-    { id: 20, status: "Watched" },
-    { id: 9253, status: "Dropped" },
-    { id: 28977, status: "Watch" },
-  ],
+  animeMarkers: [],
   markersValues: [
     { value: "Planned", color: "rgba(148, 80, 159, 1)" },
     { value: "Watched", color: "rgba(80, 112, 159, 1)" },
@@ -150,6 +153,10 @@ const initialState: CounterState = {
     { value: "Unwatched", color: "rgba(0, 0, 0, 1)" },
   ],
   statusModalAnimeItem: false,
+  charactersModalStatus: false,
+  currentCharacterInfo: {},
+  currentCharacterId: "",
+  userData: {},
 };
 
 export const counterSlice = createSlice({
@@ -184,6 +191,9 @@ export const counterSlice = createSlice({
     },
     signInLoginValueChange: (state, action: PayloadAction<string>) => {
       state.signInPage.login = action.payload;
+    },
+    signInPasswordValueChange: (state, action) => {
+      state.signInPage.password = action.payload;
     },
     registrationLoginValueChange: (state, action: PayloadAction<string>) => {
       if (action.payload.search(/[а-яА-ЯёЁ]/g) === -1) {
@@ -281,6 +291,18 @@ export const counterSlice = createSlice({
     changeStatusOfAnimeModal: (state, action) => {
       state.statusModalAnimeItem = action.payload;
     },
+    changeCharactersModalVisible: (state, action) => {
+      state.charactersModalStatus = action.payload;
+    },
+    setCharacterInfo: (state, action) => {
+      state.currentCharacterInfo = action.payload;
+    },
+    setCurrentCharacterId: (state, action) => {
+      state.currentCharacterId = action.payload;
+    },
+    setUserData: (state, action) => {
+      state.userData = action.payload;
+    },
   },
 });
 
@@ -306,6 +328,11 @@ export const {
   setRecommendationsOfCurrentAnime,
   addAnimeToMarkers,
   changeStatusOfAnimeModal,
+  changeCharactersModalVisible,
+  setCharacterInfo,
+  setCurrentCharacterId,
+  setUserData,
+  signInPasswordValueChange,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

@@ -6,13 +6,15 @@ import loader from "../../assets/images/loader.svg";
 function RecomendationsBlock({
   recommendationLoading,
   recommendations,
+  title,
 }: {
   recommendationLoading: boolean;
   recommendations: any[];
+  title: string;
 }) {
   return (
     <div className={styles.itemRecommendations}>
-      <h1 className={styles.title}>Recommendations</h1>
+      <h1 className={styles.title}>{title}</h1>
       {recommendationLoading ? (
         <div className={styles.recommendationItems}>
           {recommendations.map((item, i) => {

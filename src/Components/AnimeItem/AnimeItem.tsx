@@ -13,12 +13,12 @@ import {
   setRecommendationsOfCurrentAnime,
 } from "../../redux/slices/mainSlice";
 import loader from "../../assets/images/loader.svg";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
 import QueryString from "qs";
-import { debounce } from "lodash";
 import RecomendationsBlock from "../RecomendationsBlock/RecomendationsBlock";
 import CharactersBlock from "../CharactersBlock/CharactersBlock";
+import AllCharactersModal from "../CharactersBlock/AllCharactersModal/AllCharactersModal";
 
 function AnimeItem() {
   const currentItem = useSelector((state: RootState) => state.main.currentItem);
@@ -51,6 +51,9 @@ function AnimeItem() {
   const markers = useSelector((state: RootState) => state.main.animeMarkers);
   const [animeId, setAnimeId] = React.useState(0);
   const [valueColor, setColor] = React.useState("#fff");
+  const characterModal = useSelector(
+    (state: RootState) => state.main.charactersModalStatus
+  );
 
   React.useEffect(() => {
     const id:
@@ -62,16 +65,16 @@ function AnimeItem() {
     dispatch(setLoading(true));
     if (animeId !== (id as unknown as number)) {
       setAnimeId(parseInt(id as string));
-      axios
-        .get(`https://api.jikan.moe/v4/anime/${id}/full`)
-        .then((response) => {
-          dispatch(setCurrentAnime(response.data.data));
-          axios
-            .get(`https://api.jikan.moe/v4/anime/${id}/characters`)
-            .then((response) => {
-              dispatch(setCharactersOfCurrentAnime(response.data.data));
-              setcharacterLoading(true);
-              setTimeout(() => {
+      setTimeout(() => {
+        axios
+          .get(`https://api.jikan.moe/v4/anime/${id}/full`)
+          .then((response) => {
+            dispatch(setCurrentAnime(response.data.data));
+            axios
+              .get(`https://api.jikan.moe/v4/anime/${id}/characters`)
+              .then((response) => {
+                dispatch(setCharactersOfCurrentAnime(response.data.data));
+                setcharacterLoading(true);
                 axios
                   .get(`https://api.jikan.moe/v4/anime/${id}/recommendations`)
                   .then((response) => {
@@ -81,9 +84,9 @@ function AnimeItem() {
                     setRecommendationLoading(true);
                     dispatch(setLoading(false));
                   });
-              }, 500);
-            });
-        });
+              });
+          });
+      }, 3000);
     }
   }, [location]);
 
@@ -101,6 +104,15 @@ function AnimeItem() {
     dispatch(changeStatusOfAnimeModal(false));
   }, [markers, location, animeId, statusValues, status, dispatch]);
 
+  React.useEffect(() => {
+    if (characterModal) {
+      document.body.style.overflowY = "hidden";
+      document.body.style.height = "100vh";
+    } else {
+      document.body.removeAttribute("style");
+    }
+  }, [characterModal]);
+
   const addToMarkers = (id: number, value: string) => {
     dispatch(
       addAnimeToMarkers({
@@ -117,6 +129,16 @@ function AnimeItem() {
         </div>
       ) : (
         <div className="container">
+          {characters.length > 1 ? (
+            <CSSTransition
+              in={characterModal}
+              timeout={300}
+              classNames="PopUp"
+              unmountOnExit
+            >
+              <AllCharactersModal characters={characters} />
+            </CSSTransition>
+          ) : null}
           <div className={styles.itemContent}>
             <div className={styles.mainDesc}>
               <div className={styles.descImg}>
@@ -130,22 +152,7 @@ function AnimeItem() {
                     alt=""
                   />
                 </div>
-                <button
-                  onClick={() =>
-                    dispatch(changeStatusOfAnimeModal(!statusModal))
-                  }
-                  className={
-                    statusModal
-                      ? `${styles.viewStatus} ${styles.active}`
-                      : styles.viewStatus
-                  }
-                  style={{
-                    color: status !== "Unwatched" ? valueColor : "#fff",
-                    border: `1px solid ${valueColor}`,
-                  }}
-                >
-                  {status}
-                </button>
+
                 <CSSTransition
                   in={statusModal}
                   timeout={300}
@@ -268,6 +275,7 @@ function AnimeItem() {
               <RecomendationsBlock
                 recommendationLoading={recommendationLoading}
                 recommendations={recommendations}
+                title={"Recomendations"}
               />
             ) : null}
           </div>

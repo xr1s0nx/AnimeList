@@ -4,16 +4,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import {
   confirmPassChange,
-  registrationDataSend,
   registrationLoginValueChange,
   regPassChange,
 } from "../../../redux/slices/mainSlice";
-
 function RegistrationContent() {
+  const userData = useSelector((state: RootState) => state.main.userData);
   const registrationPage = useSelector(
     (state: RootState) => state.main.registrationPage
   );
   const dispatch = useDispatch();
+
+  const regSend = async () => {};
+
+  React.useEffect(() => {}, [userData]);
 
   React.useEffect(() => {
     return () => {
@@ -52,10 +55,7 @@ function RegistrationContent() {
             type="password"
           />
         </div>
-        <button
-          onClick={() => dispatch(registrationDataSend())}
-          className={styles.button}
-        >
+        <button onClick={regSend} className={styles.button}>
           Registration
         </button>
       </div>

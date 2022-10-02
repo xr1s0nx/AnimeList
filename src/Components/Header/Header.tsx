@@ -8,11 +8,13 @@ import {
   changeActiveNav,
   changePopUpActive,
 } from "../../redux/slices/mainSlice";
+import { useAuth } from "../../hooks/useAuth";
 
 const Header: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const navBtns = useSelector((state: RootState) => state.main.navBtnsPages);
+  const { isAuth } = useAuth();
 
   const onNavClick = (id: number) => {
     dispatch(changeActiveNav(id));
@@ -48,14 +50,6 @@ const Header: React.FC = () => {
               );
             })}
           </nav>
-          <button
-            onClick={() => {
-              dispatch(changePopUpActive(true));
-            }}
-            className={styles.signIn}
-          >
-            Sign In
-          </button>
         </div>
       </div>
     </header>

@@ -3,12 +3,12 @@ import styles from "../SignContent.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import {
-  registrationLoginValueChange,
   signInLoginValueChange,
+  signInPasswordValueChange,
 } from "../../../redux/slices/mainSlice";
 
 function SignInContent() {
-  const login = useSelector((state: RootState) => state.main.signInPage.login);
+  const { login } = useSelector((state: RootState) => state.main.signInPage);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -16,6 +16,8 @@ function SignInContent() {
       dispatch(signInLoginValueChange(""));
     };
   }, [dispatch]);
+
+  const loggin = () => {};
 
   return (
     <>
@@ -32,9 +34,16 @@ function SignInContent() {
         </div>
         <div className={styles.inputRow}>
           <p>Password</p>
-          <input type="password" />
+          <input
+            onChange={(e) =>
+              dispatch(signInPasswordValueChange(e.currentTarget.value))
+            }
+            type="password"
+          />
         </div>
-        <button className={styles.button}>Sign In</button>
+        <button onClick={loggin} className={styles.button}>
+          Sign In
+        </button>
       </div>
     </>
   );
